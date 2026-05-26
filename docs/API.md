@@ -17,7 +17,7 @@ Content-Type: application/json
 
 {
   "username": "admin",
-  "password": "admin123"
+  "password": "admin"
 }
 ```
 
@@ -736,6 +736,68 @@ GET /api/multi-agent/:id
 Authorization: Bearer <token>
 ```
 
+## 自动修复（Auto Remediation）
+
+### 获取修复策略列表
+```http
+GET /api/remediation-policies
+Authorization: Bearer <token>
+```
+
+### 创建修复策略
+```http
+POST /api/remediation-policies
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "name": "CPU 过高自动重启",
+  "alertRule": "cpu_usage > 90",
+  "action": "restart_service",
+  "enabled": true
+}
+```
+
+### 获取修复执行记录
+```http
+GET /api/remediation-executions
+Authorization: Bearer <token>
+```
+
+## 备份与恢复
+
+### 创建数据库备份
+```http
+POST /api/backups
+Authorization: Bearer <token>
+```
+
+### 获取备份列表
+```http
+GET /api/backups
+Authorization: Bearer <token>
+```
+
+### 恢复备份
+```http
+POST /api/backups/:id/restore
+Authorization: Bearer <token>
+```
+
+## 数据库管理
+
+### 获取数据库信息
+```http
+GET /api/database/info
+Authorization: Bearer <token>
+```
+
+### 数据库健康检查
+```http
+GET /api/database/health
+Authorization: Bearer <token>
+```
+
 ## 健康检查
 
 ```http
@@ -768,6 +830,7 @@ GET /health
 - `alert:new`
 - `alert:updated`
 - `notification:new`
+- `remediation:executed` - 修复执行通知
 
 ## 错误响应
 
