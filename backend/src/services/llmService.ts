@@ -606,7 +606,7 @@ export async function generateCompletion(
   // 优先使用 AI 模型池中的默认模型
   const defaultModel = aiModelService.getDefaultModel();
   if (defaultModel && defaultModel.enabled) {
-    logger.info(`🤖 [generateCompletion] Using default model from AI Model Pool: ${defaultModel.name} (${defaultModel.provider})`);
+    logger.info(`🤖 [generateCompletion] Using default model from AI Model Pool: ${defaultModel.name} (${defaultModel.provider_type})`);
     return Promise.race([
       callModelWithConfig(defaultModel, systemPrompt, prompt, 'LLM', temperature, agentId),
       timeoutPromise
