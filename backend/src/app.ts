@@ -110,11 +110,6 @@ async function initializeApp() {
   logger.info('✅ Application initialization complete');
 }
 
-initializeApp().catch(error => {
-  logger.error('❌ Failed to initialize application', error as Error);
-  process.exit(1);
-});
-
 setupWebSocket(io);
 setIOInstance(io);
 vncProxyService.initialize(io);
@@ -209,10 +204,20 @@ app.use(errorHandler);
 const PORT = env.PORT;
 const HOST = process.env.HOST || '0.0.0.0';
 
-httpServer.listen(PORT, HOST, () => {
-  logger.info(`🚀 ITOps Agent Platform Backend running on ${HOST}:${PORT}`);
-  logger.info(`📡 WebSocket server ready`);
-  logger.info(`🌍 Environment: ${env.NODE_ENV}`);
+// 等待数据库初始化完成后再启动 HTTP 服务器，避免竞态
+async function startServer() {
+  await initializeApp();
+  
+  httpServer.listen(PORT, HOST, () => {
+    logger.info(`🚀 ITOps Agent Platform Backend running on ${HOST}:${PORT}`);
+    logger.info(`📡 WebSocket server ready`);
+    logger.info(`🌍 Environment: ${env.NODE_ENV}`);
+  });
+}
+
+startServer().catch(error => {
+  logger.error('❌ Failed to start server', error);
+  process.exit(1);
 });
 
 const gracefulShutdown = async (signal: string) => {

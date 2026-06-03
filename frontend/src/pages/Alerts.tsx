@@ -5,7 +5,6 @@ import { Bell, CheckCircle, Clock, AlertCircle, Search } from 'lucide-react';
 import { safeFormatDistance } from '../lib/date';
 import clsx from 'clsx';
 import api from '../lib/api';
-import { ImportExport } from '../components/ImportExport';
 import { useAuth } from '../contexts/AuthContext';
 import { sanitizeText } from '../lib/xss';
 
@@ -45,16 +44,10 @@ export default function Alerts() {
     staleTime: 30000,
   });
 
-  const scheduleReconnect = useCallback(() => {
-    if (reconnectAttemptRef.current >= WS_RECONNECT_INTERVALS.length) return;
-    const delay = WS_RECONNECT_INTERVALS[reconnectAttemptRef.current];
-    reconnectTimerRef.current = setTimeout(() => {
-      reconnectAttemptRef.current++;
-      connectWebSocket();
-    }, delay);
-  }, [token]);
+  const connectWebSocketRef = useRef<ReturnType<typeof connectWebSocketInner> | null>(null);
+  const scheduleReconnectRef = useRef<(() => void) | null>(null);
 
-  const connectWebSocket = useCallback(() => {
+  const connectWebSocketInner = useCallback(() => {
     if (!token) return;
 
     const socket: Socket = io(wsUrl, {
@@ -71,12 +64,12 @@ export default function Alerts() {
 
     socket.on('disconnect', () => {
       setWsConnected(false);
-      scheduleReconnect();
+      scheduleReconnectRef.current?.();
     });
 
     socket.on('connect_error', () => {
       setWsConnected(false);
-      scheduleReconnect();
+      scheduleReconnectRef.current?.();
     });
 
     socket.on('alert:new', () => {
@@ -98,17 +91,28 @@ export default function Alerts() {
       socket.emit('alert:unsubscribe');
       socket.disconnect();
     };
-  }, [token, refetch, scheduleReconnect]);
+  }, [token, refetch]);
+
+  const scheduleReconnect = useCallback(() => {
+    if (reconnectAttemptRef.current >= WS_RECONNECT_INTERVALS.length) return;
+    const delay = WS_RECONNECT_INTERVALS[reconnectAttemptRef.current];
+    reconnectTimerRef.current = setTimeout(() => {
+      reconnectAttemptRef.current++;
+      connectWebSocketRef.current?.();
+    }, delay);
+  }, []);
 
   useEffect(() => {
-    const cleanup = connectWebSocket();
+    connectWebSocketRef.current = connectWebSocketInner;
+    scheduleReconnectRef.current = scheduleReconnect;
+    const cleanup = connectWebSocketInner();
     return () => {
       cleanup?.();
       if (reconnectTimerRef.current) {
         clearTimeout(reconnectTimerRef.current);
       }
     };
-  }, [connectWebSocket]);
+  }, [connectWebSocketInner, scheduleReconnect]);
 
   const serverSideFilteredAlerts = alerts?.filter((alert) => {
     if (!searchQuery) return true;

@@ -784,14 +784,6 @@ function AgentModal({ agent, onClose }: { agent: Agent | null; onClose: () => vo
   const [testResult, setTestResult] = useState<string | null>(null);
   const [testLoading, setTestLoading] = useState(false);
   
-  const { data: availableModels } = useQuery({
-    queryKey: ['availableModels'],
-    queryFn: async () => {
-      const res = await api.get('/api/settings/models');
-      return res.data.data;
-    }
-  });
-
   const { data: aiModels } = useQuery({
     queryKey: ['aiModels'],
     queryFn: async () => {

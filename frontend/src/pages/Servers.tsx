@@ -614,7 +614,7 @@ ${serverInfo.disk_gb ? `磁盘大小：${serverInfo.disk_gb}GB` : ''}
         serverIds: [aiCommandServer.id]
       });
 
-      let output = res.data.data.output;
+      const output = res.data.data.output;
       const jsonMatch = output.match(/\{[\s\S]*\}/);
       if (jsonMatch) {
         try {

@@ -10,11 +10,11 @@
 services:
   backend:
     # For local build
-    # build:
-    #   context: .
-    #   dockerfile: docker/Dockerfile.backend
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.backend
     # For using pre-built images from registry:
-    image: registry.cn-hangzhou.aliyuncs.com/huluwa666/tsq-images-hub:IT_Onlin-ITOps-backend-latest
+    # image: registry.cn-hangzhou.aliyuncs.com/huluwa666/tsq-images-hub:IT_Onlin-ITOps-backend-latest
     container_name: itops-backend
     networks:
       - itops-network
@@ -75,11 +75,11 @@ services:
 
   frontend:
     # For local build
-    # build:
-    #   context: .
-    #   dockerfile: docker/Dockerfile.frontend
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.frontend
     # For using pre-built images from registry:
-    image: registry.cn-hangzhou.aliyuncs.com/huluwa666/tsq-images-hub:IT_Onlin-ITOps-frontend-latest
+    # image: registry.cn-hangzhou.aliyuncs.com/huluwa666/tsq-images-hub:IT_Onlin-ITOps-frontend-latest
     container_name: itops-frontend
     networks:
       - itops-network
@@ -99,7 +99,7 @@ services:
           memory: 128M
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:80/"]
+      test: ["CMD", "wget", "--spider", "http://127.0.0.1:80/"]
       interval: 30s
       timeout: 5s
       retries: 3

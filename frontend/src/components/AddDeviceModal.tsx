@@ -80,7 +80,7 @@ export default function AddDeviceModal({ device, onClose, onSuccess }: AddDevice
   // 获取认证凭证列表
   const { data: credentials = [] } = useQuery({
     queryKey: ['ssh-keys'],
-    queryFn: () => api.get('/ssh-keys').then(res => res.data.data)
+    queryFn: () => api.get('/api/ssh-keys').then(res => res.data.data)
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -112,10 +112,10 @@ export default function AddDeviceModal({ device, onClose, onSuccess }: AddDevice
       }
 
       if (isEditing && device?.id) {
-        await api.put(`/network-devices/${device.id}`, payload);
+        await api.put(`/api/network-devices/${device.id}`, payload);
         toast.success('设备更新成功');
       } else {
-        await api.post('/network-devices', payload);
+        await api.post('/api/network-devices', payload);
         toast.success('设备添加成功');
       }
       onSuccess();
@@ -136,7 +136,7 @@ export default function AddDeviceModal({ device, onClose, onSuccess }: AddDevice
 
     // 如果使用凭证，获取凭证中的认证信息
     let testUsername = formData.username;
-    let testPassword = formData.password;
+    const testPassword = formData.password;
     
     if (useCredential && formData.ssh_key_id) {
       const selectedCred = credentials.find((c: Credential) => c.id === formData.ssh_key_id);
@@ -156,7 +156,7 @@ export default function AddDeviceModal({ device, onClose, onSuccess }: AddDevice
     setTestingConnection(true);
     setTestResult(null);
     try {
-      const response = await api.post('/network-devices/test-connection', {
+      const response = await api.post('/api/network-devices/test-connection', {
         ip_address: formData.ip_address,
         ssh_port: formData.ssh_port,
         username: testUsername,

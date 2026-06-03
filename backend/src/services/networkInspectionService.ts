@@ -65,7 +65,7 @@ class NetworkInspectionService {
     ).run(inspectionId, deviceId, inspectionType, 'running');
 
     try {
-      let results: ParsedResult[] = [];
+      const results: ParsedResult[] = [];
       let commandsExecuted = 0;
       let commandsFailed = 0;
 
@@ -317,7 +317,7 @@ class NetworkInspectionService {
         if (!isResolved) {
           isResolved = true;
           if (connectTimeout) clearTimeout(connectTimeout);
-          try { conn.end(); } catch {}
+          try { conn.end(); } catch { /* ignore cleanup errors */ }
           reject(error);
         }
       };
@@ -397,7 +397,7 @@ class NetworkInspectionService {
   private disconnect(conn: Client): void {
     try {
       conn.end();
-    } catch {}
+    } catch { /* ignore cleanup errors */ }
   }
 
   private generateSummary(results: ParsedResult[]): string {

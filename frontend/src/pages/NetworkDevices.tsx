@@ -1,8 +1,8 @@
 import { useState, useMemo } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import {
-  Plus, Edit, Trash2, RefreshCw, CheckCircle2, AlertCircle,
-  Wifi, History, X, Loader2, Network, Search, ClipboardCheck,
+  Plus, Trash2, RefreshCw, CheckCircle2,
+  Wifi, X, Loader2, Network, Search, ClipboardCheck,
   AlertTriangle, CheckSquare, Square
 } from 'lucide-react';
 import api from '../lib/api';

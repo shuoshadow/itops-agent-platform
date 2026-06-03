@@ -263,10 +263,10 @@ router.get('/sla-stats', (_req: Request, res: Response) => {
   try {
     const completedTasks = db.prepare(`
       SELECT AVG(
-        CAST(julianday(completed_at) - julianday(created_at) AS REAL) * 24 * 60
+        CAST(julianday(end_time) - julianday(created_at) AS REAL) * 24 * 60
       ) as avg_minutes
       FROM tasks
-      WHERE status = 'completed' AND completed_at IS NOT NULL
+      WHERE status = 'completed' AND end_time IS NOT NULL
       AND created_at >= datetime('now', '-7 days')
     `).get() as { avg_minutes: number | null };
 

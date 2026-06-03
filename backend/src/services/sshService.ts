@@ -58,8 +58,10 @@ class SSHConnectionPool {
   private healthCheckTimer: NodeJS.Timeout | null = null;
 
   constructor() {
-    this.startHealthCheck();
     this.setupCleanupOnShutdown();
+    // Defer health check start to allow proper initialization
+    // Use unref to not block process exit
+    setTimeout(() => this.startHealthCheck(), 1000).unref();
   }
 
   private setupCleanupOnShutdown(): void {
@@ -203,6 +205,10 @@ class SSHConnectionPool {
           
           if (!success) {
             conn.healthCheckFailed++;
+            // If connection has failed multiple times, close and remove it from the pool
+            if (conn.healthCheckFailed >= 3) {
+              this.removeConnection(conn);
+            }
           } else {
             conn.healthCheckFailed = 0;
           }
@@ -211,6 +217,24 @@ class SSHConnectionPool {
         }
       }
     }
+  }
+
+  private removeConnection(conn: PooledConnection): void {
+    try {
+      conn.client.end();
+    } catch {
+      // Ignore errors during cleanup
+    }
+    for (const [serverId, connections] of this.pool.entries()) {
+      const idx = connections.indexOf(conn);
+      if (idx !== -1) {
+        connections.splice(idx, 1);
+        if (connections.length === 0) {
+          this.pool.delete(serverId);
+        }
+      }
+    }
+    this.totalConnections = Math.max(0, this.totalConnections - 1);
   }
 
   private async createConnection(server: ServerInfo, serverId: string): Promise<Client> {

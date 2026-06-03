@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { Bot, GitBranch, Play, Bell, TrendingUp, TrendingDown, Minus, Clock, Server, BookOpen, Zap, Activity, Shield, FolderOpen } from 'lucide-react';
+import { Bot, GitBranch, Play, Bell, TrendingUp, TrendingDown, Minus, Clock, Server, BookOpen, Zap, Activity, Shield } from 'lucide-react';
 import { useNavigate, Link } from 'react-router-dom';
 import api from '../lib/api';
 import { safeFormatDistance } from '../lib/date';

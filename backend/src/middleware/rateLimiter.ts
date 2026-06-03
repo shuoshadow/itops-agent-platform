@@ -42,10 +42,28 @@ function isIpWhitelisted(ip: string | undefined): boolean {
   const clientIp = ip.replace(/^::ffff:/, '');
   return ipWhitelist.some(whitelistedIp => {
     if (whitelistedIp.includes('/')) {
-      return clientIp.startsWith(whitelistedIp.split('/')[0]);
+      return isIpInCidr(clientIp, whitelistedIp);
     }
     return clientIp === whitelistedIp || whitelistedIp === '*';
   });
+}
+
+function isIpInCidr(ip: string, cidr: string): boolean {
+  const [network, prefixLenStr] = cidr.split('/');
+  const prefixLen = parseInt(prefixLenStr, 10);
+  if (isNaN(prefixLen) || prefixLen < 0 || prefixLen > 32) return false;
+
+  const ipNum = ipToNumber(ip);
+  const networkNum = ipToNumber(network);
+  const mask = prefixLen === 0 ? 0 : (~0 << (32 - prefixLen)) >>> 0;
+
+  return (ipNum & mask) === (networkNum & mask);
+}
+
+function ipToNumber(ip: string): number {
+  const parts = ip.split('.').map(Number);
+  if (parts.length !== 4 || parts.some(p => isNaN(p) || p < 0 || p > 255)) return 0;
+  return ((parts[0] << 24) | (parts[1] << 16) | (parts[2] << 8) | parts[3]) >>> 0;
 }
 
 // 默认策略：每分钟最多100次

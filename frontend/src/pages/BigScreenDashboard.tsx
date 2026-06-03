@@ -3,7 +3,7 @@ import type { ComponentType, SVGProps } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import {
-  Server, Bot, Play, Bell, Activity,
+  Server, Bot, Play, Bell,
   Shield, Network, Cpu, MemoryStick, HardDrive,
   CheckCircle, RefreshCcw, Globe, Terminal, FileCode,
   Maximize2, Minimize2, AlertCircle, ChevronRight,
@@ -320,7 +320,6 @@ export default function BigScreenDashboard() {
       } else if (task.status === 'failed') {
         try {
           const results = task.node_results ? JSON.parse(task.node_results) as Record<string, { status: string }> : {};
-          const failedCount = Object.values(results).filter(r => r.status === 'failed').length;
           const completedCount = Object.values(results).filter(r => r.status === 'completed').length;
           totalNodes = Object.keys(results).length;
           completedNodes = completedCount;

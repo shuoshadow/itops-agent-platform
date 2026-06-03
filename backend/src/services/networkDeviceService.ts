@@ -246,7 +246,7 @@ class NetworkDeviceService {
       };
     } finally {
       if (conn) {
-        try { conn.end(); } catch {}
+        try { conn.end(); } catch { /* ignore cleanup errors */ }
       }
     }
   }
@@ -298,7 +298,7 @@ class NetworkDeviceService {
       };
     } finally {
       if (conn) {
-        try { conn.end(); } catch {}
+        try { conn.end(); } catch { /* ignore cleanup errors */ }
       }
     }
   }
@@ -341,7 +341,7 @@ class NetworkDeviceService {
         if (!isResolved) {
           isResolved = true;
           if (connectTimeout) clearTimeout(connectTimeout);
-          try { conn.end(); } catch {}
+          try { conn.end(); } catch { /* ignore cleanup errors */ }
           reject(error);
         }
       };

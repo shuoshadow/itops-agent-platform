@@ -1,6 +1,7 @@
 import { describe, it, expect, beforeEach, beforeAll } from 'vitest';
 import { AlertService, AlertRule, AlertSeverity } from './alertService';
 import { initializeDatabase } from '../models/database';
+import db from '../models/database';
 
 describe('AlertService', () => {
   let alertService: AlertService;
@@ -13,7 +14,6 @@ describe('AlertService', () => {
 
   beforeEach(() => {
     // 清除数据库中的规则，确保每个测试从干净状态开始
-    const { db } = require('../models/database');
     db.prepare("DELETE FROM settings WHERE key = 'alert_rules'").run();
     
     alertService = new AlertService();

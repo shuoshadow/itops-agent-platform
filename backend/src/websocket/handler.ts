@@ -1,3 +1,4 @@
+import { tokenBlacklist } from '../services/tokenBlacklist';
 import { Server as SocketIOServer, Socket } from 'socket.io';
 import jwt from 'jsonwebtoken';
 import { env } from '../utils/env';
@@ -23,6 +24,11 @@ function authenticateSocket(socket: Socket, next: (err?: Error) => void) {
   }
 
   try {
+    if (tokenBlacklist.isBlacklisted(token)) {
+      logger.error('❌ WebSocket 认证失败: token 已拉黑');
+      return next(new Error('token已失效'));
+    }
+
     const decoded = jwt.verify(token, env.JWT_SECRET) as { id: string };
     
     const user = db.prepare('SELECT id, username, email, role, enabled FROM users WHERE id = ?').get(decoded.id) as User | undefined;
@@ -96,6 +102,7 @@ export function setupWebSocket(io: SocketIOServer) {
 
         socket.on('terminal:disconnect', () => {
           result.shell.removeListener('data', shellDataHandler);
+          terminalService.closeTerminalSession(result.sessionId);
         });
 
         socket.on(`terminal:close-session:${result.sessionId}`, () => {

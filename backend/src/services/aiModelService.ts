@@ -1,3 +1,4 @@
+import { randomUUID } from 'crypto';
 import db from '../models/database';
 import { logger } from '../utils/logger';
 import { getApiKey, getModelId, getApiBase, buildApiEndpoint } from '../utils/apiConfig';
@@ -170,7 +171,6 @@ export function getDefaultModel(): AIModel | undefined {
 }
 
 export function createModel(dto: CreateAIModelDTO): AIModel {
-  const { randomUUID } = require('crypto');
   const id = randomUUID();
   
   const maxSortOrder = db.prepare('SELECT MAX(sort_order) as max_order FROM ai_models').get() as { max_order: number | null };

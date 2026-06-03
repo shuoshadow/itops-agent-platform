@@ -110,7 +110,12 @@ export function checkCommandSafety(
   reason?: string;
   policy?: string;
 } {
-  const trimmed = command.trim();
+  // 去除前后空格并统一多余空白
+  let trimmed = command.trim().replace(/\s+/g, ' ');
+
+  // 剥离 sudo 前缀，防止绕过安全检查
+  // 匹配 sudo、sudo -S、sudo -u xxx 等常见形式
+  trimmed = trimmed.replace(/^(?:sudo(?:\s+-\w+(?:\s+\S+)?)?\s+)+/, '');
 
   for (const policy of DANGEROUS_COMMANDS) {
     for (const pattern of policy.patterns) {

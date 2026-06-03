@@ -58,6 +58,7 @@ class Logger {
   private flushInterval: NodeJS.Timeout | null = null;
   private maxBufferSize = 100;
   private performanceMetrics: Map<string, number[]> = new Map();
+  private maxMetricKeys = 500;
 
   constructor(service: string = 'itops-agent') {
     this.service = service;
@@ -76,6 +77,18 @@ class Logger {
     process.on('SIGTERM', () => this.flushBuffer());
     process.on('SIGINT', () => this.flushBuffer());
     process.on('beforeExit', () => this.flushBuffer());
+
+    // Periodically cleanup timestamp arrays to prevent unbounded growth
+    this.startTimestampCleanup();
+  }
+
+  private startTimestampCleanup(): void {
+    setInterval(() => {
+      const oneHourAgo = Date.now() - 3600000;
+      const oneDayAgo = Date.now() - 86400000;
+      this.lastHourTimestamps = this.lastHourTimestamps.filter(t => t > oneHourAgo);
+      this.lastDayTimestamps = this.lastDayTimestamps.filter(t => t > oneDayAgo);
+    }, 60 * 60 * 1000).unref();
   }
 
   private setupLogFiles(): void {
@@ -195,6 +208,16 @@ class Logger {
     
     if (metrics.length > 1000) {
       metrics.shift();
+    }
+
+    // Limit the number of metric keys to prevent unbounded growth
+    if (this.performanceMetrics.size > this.maxMetricKeys) {
+      // Remove the oldest entries (first N keys added)
+      const keysToRemove = this.performanceMetrics.size - this.maxMetricKeys;
+      const keys = Array.from(this.performanceMetrics.keys());
+      for (let i = 0; i < keysToRemove; i++) {
+        this.performanceMetrics.delete(keys[i]);
+      }
     }
   }
 

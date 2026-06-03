@@ -324,7 +324,9 @@ export async function initializeDatabase(): Promise<void> {
   // 运行数据库迁移（包含所有表和索引创建）
   await runMigrations(db);
 
-  const { migrateOldConfigToAIModels, migrateOldAgents } = require('../services/aiModelService');
+  // Run AI model migration (delayed to avoid circular import)
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  const { migrateOldConfigToAIModels, migrateOldAgents } = await import('../services/aiModelService');
   migrateOldConfigToAIModels();
   migrateOldAgents();
 
