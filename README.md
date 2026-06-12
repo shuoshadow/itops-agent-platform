@@ -479,6 +479,38 @@ npm run dev
   <img src="./frontend/public/wechaterweima.png" width="200" alt="IT Online 微信公众号">
 </p>
 
+## 🙏 特别鸣谢
+
+感谢以下所有为本项目做出贡献的人！
+
+| 头像 | 姓名 / 用户名 | 角色 | 主要贡献 |
+|:---:|:---:|:---:|:---|
+| <img src="./docs-assets/contributors/placeholder-1.svg" width="60" height="60" style="border-radius:50%;" /> | **谭策** ([@qinshihu](https://github.com/qinshihu)) | 项目作者 | 项目架构设计、核心功能开发、文档编写 |
+| <img src="./docs-assets/contributors/微信图片_2026-06-12_143259_183.jpg" width="60" height="60" style="border-radius:50%;" /> | **热心市民高先生** | 微信贡献者 | 项目测试与反馈 |
+| <img src="./docs-assets/contributors/微信图片_2026-06-12_143226_852.jpg" width="60" height="60" style="border-radius:50%;" /> | **@林** | 微信贡献者 | 项目测试与反馈 |
+| <img src="./docs-assets/contributors/placeholder-4.svg" width="60" height="60" style="border-radius:50%;" /> | **待添加** | 贡献者 | 在此描述主要贡献 |
+
+> 💡 **如何添加贡献者**：
+> 1. 将头像图片放入 [`./docs-assets/contributors/`](./docs-assets/contributors/) 文件夹
+> 2. 命名格式：`用户名.png`（如 `qinshihu.png`）或 `wechat-昵称.png`（微信贡献者）
+> 3. 在上方表格中替换 `placeholder-X.svg` 为实际图片文件名
+> 4. 修改姓名、链接和贡献描述
+> 5. 详见 [贡献者头像文件夹说明](./docs-assets/contributors/README.md)
+>
+> **支持的贡献者类型**：
+> - ✅ GitHub 开发者（自动获取头像或手动上传）
+> - ✅ 微信好友/群友（保存微信头像图片上传）
+> - ✅ 社区成员、测试人员、文档贡献者
+> - ✅ 组织/公司（Logo 图片）
+
+### 社区贡献者
+
+<a href="https://github.com/qinshihu/itops-agent-platform/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=qinshihu/itops-agent-platform" />
+</a>
+
+> 自动生成的所有代码贡献者头像墙，由 [contributors-img](https://contrib.rocks) 提供
+
 ## 🤝 参与贡献
 
 我们欢迎任何形式的贡献！请参阅 [贡献指南](CONTRIBUTING.md) 了解详情。

@@ -456,6 +456,38 @@ Complete GitHub Actions CI/CD pipeline configuration:
   <img src="./frontend/public/wechaterweima.png" width="200" alt="IT Online WeChat Official Account">
 </p>
 
+## 🙏 Special Thanks
+
+A heartfelt thank you to all contributors of this project!
+
+| Avatar | Name / Username | Role | Main Contributions |
+|:---:|:---:|:---:|:---|
+| <img src="./docs-assets/contributors/placeholder-1.svg" width="60" height="60" style="border-radius:50%;" /> | **Tan Ce** ([@qinshihu](https://github.com/qinshihu)) | Project Author | Architecture design, core feature development, documentation |
+| <img src="./docs-assets/contributors/wechat-gao.svg" width="60" height="60" style="border-radius:50%;" /> | **热心市民高先生** | WeChat Contributor | Project testing and feedback |
+| <img src="./docs-assets/contributors/wechat-lin.svg" width="60" height="60" style="border-radius:50%;" /> | **@林** | WeChat Contributor | Project testing and feedback |
+| <img src="./docs-assets/contributors/placeholder-4.svg" width="60" height="60" style="border-radius:50%;" /> | **To be added** | Contributor | Describe contributions here |
+
+> 💡 **How to add contributors**:
+> 1. Place avatar images in [`./docs-assets/contributors/`](./docs-assets/contributors/) folder
+> 2. Naming format: `username.png` (e.g. `qinshihu.png`) or `wechat-nickname.png` (WeChat contributors)
+> 3. Replace `placeholder-X.svg` in the table above with the actual image filename
+> 4. Update names, links, and contribution descriptions
+> 5. See [contributor avatars folder guide](./docs-assets/contributors/README.md) for details
+>
+> **Supported contributor types**:
+> - ✅ GitHub developers (auto-fetch or manual upload)
+> - ✅ WeChat friends/group members (save WeChat avatar and upload)
+> - ✅ Community members, testers, documentation contributors
+> - ✅ Organizations/companies (Logo images)
+
+### Community Contributors
+
+<a href="https://github.com/qinshihu/itops-agent-platform/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=qinshihu/itops-agent-platform" />
+</a>
+
+> Auto-generated contributor avatars wall, powered by [contributors-img](https://contrib.rocks)
+
 ## 🤝 Contributing
 
 We welcome contributions in any form! Please see the [Contributing Guide](CONTRIBUTING.md) for details.
