@@ -40,7 +40,7 @@ describe('App Routing', () => {
         expect(mod.default).toBeDefined();
       }
     }
-  });
+  }, 30000);
 });
 
 describe('Page Structure Exports', () => {

@@ -70,7 +70,7 @@ import { snmpPollingService } from './services/snmpPollingService';
 import { alertAutoAnalyzer } from './services/alertAutoAnalyzer';
 import { alertCorrelationService } from './services/alertCorrelationService';
 import { setServerInstances } from './services/restartService';
-import { ensureDbskiterInstalled } from './services/dbskiterService';
+import { checkDbskiterAvailability } from './services/dbskiterService';
 import { queueService } from './services/queueService';
 import importExportRouter from './routes/importExportRoutes';
 import alertAutoRouter from './routes/alertAutoRoutes';
@@ -107,9 +107,8 @@ app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
 import { initAlertService } from './services/alertService';
 
 async function initializeApp() {
-  // 自动检测并安装 dbskiter（数据库运维 Agent 依赖）
-  // 不阻塞启动：如果安装失败只是打日志，后台运行
-  ensureDbskiterInstalled().catch(() => { /* 错误已在函数内部记录 */ });
+  // 启动时仅检测 dbskiter，不在运行期自动安装依赖
+  checkDbskiterAvailability().catch(() => { /* 错误已在函数内部记录 */ });
 
   await initializeDatabase();
   

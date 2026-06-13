@@ -38,14 +38,14 @@ router.get('/', (_req: Request, res: Response) => {
     }
 });
 
-/** 获取单个数据库连接（包含密码，仅内部使用） */
-router.get('/:id', (_req: Request, res: Response) => {
+/** 获取单个数据库连接 */
+router.get('/:id', requireRole('admin', 'operator'), (_req: Request, res: Response) => {
     try {
         const row = db.prepare('SELECT * FROM databases WHERE id = ?').get(_req.params.id) as DbConnection | undefined;
         if (!row) {
             return res.status(404).json({ success: false, error: 'Database connection not found' });
         }
-        res.json({ success: true, data: row });
+        res.json({ success: true, data: { ...row, password: '' } });
     } catch (error) {
         res.status(500).json({ success: false, error: 'Failed to get database connection' });
     }
@@ -117,7 +117,7 @@ router.delete('/:id', requireRole('admin'), (req: Request, res: Response) => {
 });
 
 /** 测试数据库连接 */
-router.post('/:id/test', async (req: Request, res: Response) => {
+router.post('/:id/test', requireRole('admin', 'operator'), async (req: Request, res: Response) => {
     try {
         const row = db.prepare('SELECT * FROM databases WHERE id = ?').get(req.params.id) as DbConnection | undefined;
         if (!row) {
@@ -156,7 +156,7 @@ router.post('/:id/test', async (req: Request, res: Response) => {
 });
 
 /** 直接测试连接（不保存，用于创建前验证） */
-router.post('/test-connect', async (req: Request, res: Response) => {
+router.post('/test-connect', requireRole('admin', 'operator'), async (req: Request, res: Response) => {
     try {
         const { db_type, host, port, username, password, database } = req.body;
         if (!host || !username || !password || !database) {

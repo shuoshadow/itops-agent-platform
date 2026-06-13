@@ -27,37 +27,18 @@ export async function isDbskiterInstalled(): Promise<boolean> {
 }
 
 /**
- * 确保 dbskiter 已安装
+ * 检测 dbskiter 是否可用
  *
- * 功能描述：启动时自动检测 dbskiter，若未安装则尝试多种 pip 命令自动安装。
- * 适用于本地开发环境（有写权限）和 Docker 环境（pip 已就绪）。
- * 如果所有安装方式都失败，记录错误日志并提示用户手动安装。
+ * 功能描述：启动时只检测 dbskiter，不在运行期自动安装依赖。
+ * Docker 部署应在镜像构建阶段安装，本地开发请手动运行 pip install dbskiter。
  */
-export async function ensureDbskiterInstalled(): Promise<void> {
+export async function checkDbskiterAvailability(): Promise<void> {
     if (await isDbskiterInstalled()) {
         logger.info('✅ dbskiter 已安装');
         return;
     }
 
-    logger.warn('⚠️ dbskiter 未安装，正在自动安装...');
-    const installCommands = [
-        'pip install dbskiter',
-        'pip3 install dbskiter',
-        'python -m pip install dbskiter',
-        'python3 -m pip install dbskiter',
-        'pip install --user dbskiter',
-        'pip3 install --user dbskiter',
-    ];
-    for (const cmd of installCommands) {
-        try {
-            await execAsync(cmd, { timeout: 120000 });
-            logger.info(`✅ dbskiter 安装成功 (${cmd})`);
-            return;
-        } catch {
-            // 继续尝试下一个命令
-        }
-    }
-    logger.error('❌ dbskiter 安装失败，请手动运行: pip install dbskiter');
+    logger.warn('⚠️ dbskiter 未安装，数据库运维 Agent 将不可用。请在部署镜像或本地环境中预先安装 dbskiter。');
 }
 
 /** dbskiter 支持的运维操作类型（对应顶级命令） */
@@ -156,9 +137,27 @@ function buildDbskiterCommand(options: DbskiterOptions): string[] {
 }
 
 /**
+ * 获取可用的 Python 命令（python 或 python3）
+ *
+ * 返回说明：
+ * - [string] 'python' 或 'python3'，都不可用时返回 'python'
+ */
+async function getPythonCommand(): Promise<string> {
+    for (const cmd of ['python', 'python3']) {
+        try {
+            await execAsync(`${cmd} --version`, { timeout: 5000 });
+            return cmd;
+        } catch {
+            // 继续尝试下一个
+        }
+    }
+    return 'python';
+}
+
+/**
  * 执行 dbskiter CLI 命令
  *
- * 功能描述：通过子进程调用 python -m dbskiter，获取 JSON 输出并解析
+ * 功能描述：通过子进程调用 python/python3 -m dbskiter，获取 JSON 输出并解析
  *
  * 参数说明：
  * - options: [DbskiterOptions] 命令配置（必须包含 connection）
@@ -169,17 +168,18 @@ function buildDbskiterCommand(options: DbskiterOptions): string[] {
 export async function executeDbskiter(options: DbskiterOptions): Promise<DbskiterResult> {
     const args = buildDbskiterCommand(options);
     const timeout = options.timeout || 60000;
+    const pythonCmd = await getPythonCommand();
 
     // 安全日志：隐藏密码
     const safeArgs = args.map((arg, i) =>
         arg === '--password' ? '--password ' : arg
     );
-    logger.info(`🗄️ 执行 dbskiter: python -m dbskiter ${safeArgs.join(' ')}`);
+    logger.info(`🗄️ 执行 dbskiter: ${pythonCmd} -m dbskiter ${safeArgs.join(' ')}`);
 
     const startTime = Date.now();
 
     try {
-        const { stdout, stderr } = await execFileAsync('python', ['-m', 'dbskiter', ...args], {
+        const { stdout, stderr } = await execFileAsync(pythonCmd, ['-m', 'dbskiter', ...args], {
             timeout,
             env: {
                 ...process.env,
