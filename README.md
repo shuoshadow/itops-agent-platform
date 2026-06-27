@@ -47,7 +47,7 @@
   </a>
 </p>
 
-🎮 [在线演示](https://agentdemo-0mwug01t6.maozi.io/) &emsp;|&emsp; 📝 [项目愿景与社区共建](项目愿景与社区共建.md) &emsp;|&emsp; 📝 [项目AI编程Skill](SKILL.md) &emsp;|&emsp; 📝 [教学书籍](https://aiopsdoc-0mwug01t6.maozi.io/book/) &emsp;|&emsp; 📖 [项目文档](https://aiopsdoc-0mwug01t6.maozi.io/) &emsp;|&emsp; ✍️[作者的话](https://mp.weixin.qq.com/s/NDqYrfqR0RZEvSESyVD2hg)
+🎮 [在线演示](https://agentdemo-0mwug01t6.maozi.io/) &emsp;|&emsp; 📝[项目愿景与社区共建](项目愿景与社区共建.md) &emsp;|&emsp; 📝[AI编程Skill](SKILL.md) &emsp;|&emsp; 📝[教学书籍](https://aiopsdoc-0mwug01t6.maozi.io/book/) &emsp;|&emsp; 📖[项目文档](https://aiopsdoc-0mwug01t6.maozi.io/) &emsp;|&emsp; ✍️[作者的话](https://mp.weixin.qq.com/s/NDqYrfqR0RZEvSESyVD2hg)
 
 🌐 项目官网：<https://www.zjzwfw.cloud/ITOpsAgentinfo>
 
