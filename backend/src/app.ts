@@ -10,6 +10,7 @@ import { backupService } from './modules/infra/services/backupService';
 import { reportService } from './modules/infra/services/reportService';
 import { dockerService } from './modules/containers/services/dockerService';
 import { composeService } from './modules/infra/services/composeService';
+import { initAllServices } from './serviceRegistry';
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -37,6 +38,10 @@ const initApp = async () => {
     console.log('正在初始化数据库...');
     await initializeDatabase();
     console.log('数据库初始化成功！');
+
+    console.log('正在初始化所有服务...');
+    await initAllServices();
+    console.log('所有服务初始化成功！');
 
     console.log('正在初始化自监控...');
     selfMonitorService.init();
