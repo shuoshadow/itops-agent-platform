@@ -64,6 +64,13 @@ export interface ToolCallResult {
   tool?: McpTool;
 }
 
+export interface McpServer {
+  name: string;
+  version: string;
+  description: string;
+  protocolVersion: string;
+}
+
 export interface ExternalServer {
   id: string;
   name: string;

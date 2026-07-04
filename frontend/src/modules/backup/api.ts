@@ -9,6 +9,15 @@ import api from '@/lib/api';
 // 类型定义
 // ============================================================
 
+export interface BackupInfo {
+  id: string;
+  filename: string;
+  size: number;
+  has_encryption?: boolean;
+  created_at: string;
+  [key: string]: unknown;
+}
+
 export interface Backup {
   id: string;
   filename: string;

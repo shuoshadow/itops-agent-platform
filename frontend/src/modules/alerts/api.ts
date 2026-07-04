@@ -4,6 +4,7 @@
  */
 
 import api from '@/lib/api';
+import type { Alert as AlertEntity } from '@/types/alert';
 
 // ============================================================
 // 类型定义

@@ -14,7 +14,7 @@ const pageMap: Record<string, string> = {
   Knowledge: '../../modules/ai/pages/Knowledge',
   Scripts: '../../modules/infra/pages/Scripts',
   AuditLogs: '../../modules/infra/pages/AuditLogs',
-  Notifications: '../../modules/infra/pages/Notifications',
+  Notifications: '../../modules/notification/pages/Notifications',
   Reports: '../../modules/monitor/pages/Reports',
   Users: '../../modules/auth/pages/Users',
   Settings: '../../modules/infra/pages/Settings',

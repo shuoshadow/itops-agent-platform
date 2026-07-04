@@ -4,6 +4,7 @@
  */
 
 import api from '@/lib/api';
+import type { Agent as AgentEntity, AiModel } from '../../types/agent';
 
 // ============================================================
 // 类型定义

@@ -4,6 +4,7 @@
  */
 
 import api from '@/lib/api';
+import type { Dashboard, Report, CostEntry } from '../../types/monitor';
 
 // ============================================================
 // 类型定义

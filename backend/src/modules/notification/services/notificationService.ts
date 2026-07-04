@@ -358,3 +358,36 @@ class NotificationService {
 }
 
 export const notificationService = new NotificationService();
+
+// 创建通知（内部使用，供其他模块调用）
+export function createNotification(data: {
+  type: string;
+  title: string;
+  content?: string;
+  recipient?: string;
+  related_alert_id?: string;
+  related_task_id?: string;
+}) {
+  try {
+    const id = randomUUID();
+    const now = new Date().toISOString();
+    const { notificationsRepo } = require('../../../repositories');
+
+    notificationsRepo.create({
+      id,
+      type: data.type,
+      title: data.title,
+      content: data.content || null,
+      recipient: data.recipient || null,
+      status: 'pending',
+      related_alert_id: data.related_alert_id || null,
+      related_task_id: data.related_task_id || null,
+      created_at: now,
+    });
+
+    return id;
+  } catch (error) {
+    logger.error('Failed to create notification:', error);
+    return null;
+  }
+}

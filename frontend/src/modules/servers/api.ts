@@ -4,6 +4,7 @@
  */
 
 import api from '@/lib/api';
+import type { Server as ServerEntity, SshKey as SshKeyEntity, ServerGroup as ServerGroupEntity, ImportResult } from '@/types/server';
 
 // ============================================================
 // 类型定义

@@ -4,6 +4,7 @@
  */
 
 import api from '@/lib/api';
+import type { VirtualMachine, Container } from '@/types/container';
 
 // ============================================================
 // 通用类型

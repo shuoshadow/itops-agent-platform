@@ -1,4 +1,23 @@
-// backup 模块的表由自身 service 管理，类型在 backupService/backupTypes.ts 中定义
-// 此处不重复定义，直接 re-export
+// backup 模块类型定义
 
-export type { BackupInfo, BackupConfig } from '../../modules/backup/services/backupTypes';
+export interface BackupInfo {
+  id: string;
+  filename: string;
+  filePath: string;
+  size: number;
+  createdAt: string;
+  type: 'auto' | 'manual';
+  status: 'completed' | 'failed' | 'in_progress';
+  error?: string;
+  verified: boolean;
+  checksum?: string;
+}
+
+export interface BackupConfig {
+  enabled: boolean;
+  intervalHours: number;
+  keepLast: number;
+  backupDir: string;
+  compression: boolean;
+  verifyAfterBackup: boolean;
+}

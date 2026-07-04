@@ -9,6 +9,16 @@ import api from '@/lib/api';
 // 类型定义
 // ============================================================
 
+export interface ChangeRecord {
+  id: string;
+  type: string;
+  title: string;
+  status: string;
+  description?: string;
+  created_at: string;
+  updated_at: string;
+}
+
 export interface ApprovalRequest {
   id: string;
   task_id: string;

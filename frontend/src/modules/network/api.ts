@@ -4,6 +4,7 @@
  */
 
 import api from '@/lib/api';
+import type { NetworkDevice as NetworkDeviceEntity, SnmpCredential as SnmpCredentialEntity } from '@/types/network';
 
 // ============================================================
 // 类型定义

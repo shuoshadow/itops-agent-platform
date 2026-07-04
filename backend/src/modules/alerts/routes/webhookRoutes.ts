@@ -1,10 +1,10 @@
-﻿import type { Request, Response } from 'express';
+import type { Request, Response } from 'express';
 import { Router, json as expressJson } from 'express';
 import { getIOInstance } from '../../../shared/websocket/io';
 import { logger } from '../../../utils/logger';
 import { randomUUID } from 'crypto';
 import { createAuditLog } from '../../infra/services/auditService';
-import { createNotification } from '../../notification/routes/notificationRoutes';
+import { createNotification } from '../../notification/services/notificationService';
 import { alertService } from '../services/alertService';
 import { env } from '../../../utils/env';
 import crypto from 'crypto';

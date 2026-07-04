@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 
 // 使用 vi.hoisted 定义需在 vi.mock 工厂与测试用例间共享的 mock 函数
 const mocks = vi.hoisted(() => {
-  const run = vi.fn();
+  const run = vi.fn(() => ({ changes: 1, lastInsertRowid: 1 }));
   const get = vi.fn(() => ({ status: 'running' }));
   const prepare = vi.fn(() => ({ run, get }));
   const ioToEmit = vi.fn();

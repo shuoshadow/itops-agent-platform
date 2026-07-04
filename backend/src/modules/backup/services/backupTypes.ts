@@ -1,26 +1,7 @@
-﻿import path from 'path';
+import path from 'path';
+import type { BackupInfo, BackupConfig } from '../../../repositories/types/backup';
 
-export interface BackupInfo {
-  id: string;
-  filename: string;
-  filePath: string;
-  size: number;
-  createdAt: string;
-  type: 'auto' | 'manual';
-  status: 'completed' | 'failed' | 'in_progress';
-  error?: string;
-  verified: boolean;
-  checksum?: string;
-}
-
-export interface BackupConfig {
-  enabled: boolean;
-  intervalHours: number;
-  keepLast: number;
-  backupDir: string;
-  compression: boolean;
-  verifyAfterBackup: boolean;
-}
+export type { BackupInfo, BackupConfig };
 
 export const DEFAULT_CONFIG: BackupConfig = {
   enabled: true,

@@ -11,6 +11,14 @@ import api from '@/lib/api';
 
 // ── 认证 ──
 
+/** 通用用户类型 */
+export interface User {
+  id: string;
+  username: string;
+  email: string;
+  role: string;
+}
+
 /** 登录用户信息（与 AuthContext 中的 User 一致） */
 export interface AuthUser {
   id: string;

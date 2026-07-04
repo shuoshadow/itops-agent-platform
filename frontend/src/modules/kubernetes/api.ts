@@ -4,6 +4,7 @@
  */
 
 import api from '@/lib/api';
+import type { K8sContext as K8sContextEntity, K8sPod, K8sNode } from '../../types/kubernetes';
 
 // ============================================================
 // 类型定义

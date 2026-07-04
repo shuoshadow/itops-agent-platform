@@ -1,8 +1,7 @@
 import type { Request, Response } from 'express';
 import { Router } from 'express';
-import { randomUUID } from 'crypto';
-import { logger } from '../../../utils/logger';
 import { notificationsRepo } from '../../../repositories';
+import { createNotification } from '../services/notificationService';
 
 const router = Router();
 
@@ -54,38 +53,6 @@ router.get('/', (req: Request, res: Response) => {
     });
   }
 });
-
-// 创建通知（内部使用）
-export const createNotification = (data: {
-  type: string;
-  title: string;
-  content?: string;
-  recipient?: string;
-  related_alert_id?: string;
-  related_task_id?: string;
-}) => {
-  try {
-    const id = randomUUID();
-    const now = new Date().toISOString();
-
-    notificationsRepo.create({
-      id,
-      type: data.type,
-      title: data.title,
-      content: data.content || null,
-      recipient: data.recipient || null,
-      status: 'pending',
-      related_alert_id: data.related_alert_id || null,
-      related_task_id: data.related_task_id || null,
-      created_at: now,
-    });
-
-    return id;
-  } catch (error) {
-    logger.error('Failed to create notification:', error);
-    return null;
-  }
-};
 
 // 标记通知为已发送
 router.put('/:id/send', (req: Request, res: Response) => {

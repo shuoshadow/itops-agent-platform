@@ -4,6 +4,7 @@
  */
 
 import api from '@/lib/api';
+import type { Workflow as WorkflowEntity, Task as TaskEntity, ScheduledTask as ScheduledTaskEntity } from '@/types/workflow';
 
 // ============================================================
 // 类型定义

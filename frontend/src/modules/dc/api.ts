@@ -4,6 +4,7 @@
  */
 
 import api from '@/lib/api';
+import type { DcRoom, DcRack, DcRackSlot } from '../../types/dc';
 
 // ============================================================
 // 类型定义
